@@ -1,44 +1,1 @@
-import {ensureElement} from "../../utils/utils";
-import { IEvents } from '../base/events';
-import { Component } from '../base/Component';
-
-interface IModalData {
-	content: HTMLElement;
-}
-
-export class Modal extends Component<IModalData> {
-	protected _closeButton: HTMLButtonElement;
-	protected _content: HTMLElement;
-
-	constructor(container: HTMLElement, protected events: IEvents) {
-		super(container);
-
-		this._closeButton = ensureElement<HTMLButtonElement>(
-			'.modal__close',
-			container
-		);
-		this._content = ensureElement<HTMLElement>('.modal__content', container);
-
-	}
-
-	set content(value: HTMLElement) {
-		this._content.replaceChildren(value);
-	}
-
-	open() {
-		this.container.classList.add('modal_active');
-		this.events.emit('modal:open');
-	}
-
-	close() {
-		this.container.classList.remove('modal_active');
-		this.content = null;
-		this.events.emit('modal:close');
-	}
-
-	render(data: IModalData): HTMLElement {
-		super.render(data);
-		this.open();
-		return this.container;
-	}
-}
+import {ensureElement} from "../../utils/utils";import { IEvents } from '../base/events';import { Component } from '../base/Component';interface IModalData {	content: HTMLElement;}export class Modal extends Component<IModalData> {	protected closeButton: HTMLButtonElement;	protected contentModal: HTMLElement;	private  readonly handleEscKey: (event: KeyboardEvent) => void;	constructor(container: HTMLElement, protected events: IEvents) {		super(container);		this.events = events;		this.closeButton = ensureElement<HTMLButtonElement>('.modal__close', container);		this.contentModal = ensureElement<HTMLElement>('.modal__content', container);		this.handleEscKey = this.handleEscKeyBind.bind(this);		this.closeButton.addEventListener('click', () => {			this.close();			});		this.container.addEventListener('click', (event) => {			if (event.target === this.container) {				this.close();			}		});	};	set content(value: HTMLElement) {		this.contentModal.replaceChildren(value)	};	open (): void {		this.container.classList.add('modal_active');		document.addEventListener('keydown', this.handleEscKey);		this.events.emit('modal:open');	}	close (): void {		this.container.classList.remove('modal_active');		document.removeEventListener('keydown', this.handleEscKey);		this.events.emit('modal:close');	};	private handleEscKeyBind(event: KeyboardEvent): void {		if (event.key === 'Escape') {			this.close();		}	};}

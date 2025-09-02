@@ -28,7 +28,8 @@ export class Api {
     get(uri: string) {
         return fetch(this.baseUrl + uri, {
             ...this.options,
-            method: 'GET'
+            method: 'GET',
+					cache: 'no-store'
         }).then(this.handleResponse);
     }
 

@@ -1,7 +1,9 @@
-type TPaymentMethod = 'online' | 'on_delivery';
+export type  TBasketItem = Pick<IProduct, 'id' | 'title' | 'price'>;
+
+export type TPaymentMethod = 'online' | 'on_delivery' | null;
 
 export interface IUserData {
-	payment: TPaymentMethod; //два варианта
+	payment: TPaymentMethod;
 	email: string;
 	phone: string;
 	address: string;
@@ -16,12 +18,24 @@ export interface IProduct { //карточка товара
 	price: number | null;
 }
 
-export interface IProductsData { //каталог всех карточек
-	products: IProduct[];
-	preview: string | null;
+export  interface IOrder extends IUserData {
+	items: string[]
 }
 
-export interface  IProductsCatalog {
+export interface ICardBasket {
+	id: string;
+	title: string;
+	price: number | null;
+	index: number;
+}
+
+export interface IProductsData {
+	items: IProduct[];
+	preview: string | null;
+	total: number;
+}
+
+export interface  IProductsCatalog { //ПЕРЕДАТЬ В КЛАСС
 	fillCatalog(item: IProduct): void;
 	getCatalog(): IProductsData;
 }
@@ -31,17 +45,9 @@ export interface IUserBasket {
 	deleteItem(cardId: string): void; //может быть понадобиться функция
 	clearBasket(): void; //очистка всех карточек из корзины
 	getItemsList(): TBasketItem[]; //получения списка карточек
-	checkedAllItems(): number;
+	checkedAllItems?(): IProduct;
+	isInBasket(product: IProduct): boolean
+	getTotal(): number
 }
-/*export interface IOrderResult {
-	id: string; // результат для успешного подтверждения покупки
-}*/
 
 
-export type TPayment = Pick<IUserData, 'payment' | 'address'>;
-export type TContactInfo = Pick<IUserData, 'email' | 'phone'>;
-
-export type  TBasketItem = Pick<IProduct, 'id' | 'title' | 'price'>;
-export  type TProductCardPage = Pick<IProduct, 'image' | 'title' | 'category' | 'price'>
-
-export  type TProductsCardsPage = Pick<IProductsData, 'products'> //массив картчоек на главной странице

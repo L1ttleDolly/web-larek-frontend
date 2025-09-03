@@ -47,12 +47,8 @@ protected events: IEvents;
 		return this.container;
 	};
 
-	updateButtonState(value: number ) {
+	updateButtonState(value: number) {
+		this.setDisabled(this.button, !value);
+	}
 
-		if (value === 0) {
-			this.button.disabled = true
-		} else {
-			this.button.disabled = false
-		};
-	};
 }

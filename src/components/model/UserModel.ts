@@ -16,6 +16,8 @@ export class UserModel implements IUserModel {
 		address: ''
 	};
 
+
+
 	constructor(protected events: IEvents) {};
 
 	setField<T extends keyof IUserData>(field: T, value: IUserData[T]) {

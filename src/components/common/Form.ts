@@ -30,12 +30,11 @@ export class Form<T> extends Component<IFormState> {
 	}
 
 	set valid(value: boolean) {
-		this.submitButton.disabled = !value;
+		this.setDisabled(this.submitButton, !value)
 	}
 
 	set errors(value: string) {
 		this.setText(this.errorSpan, value);
-		this.errorSpan.style.display = value ? 'block' : 'none';
 	}
 
 	reset() {

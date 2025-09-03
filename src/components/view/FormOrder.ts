@@ -26,8 +26,7 @@ export class FormOrder extends Form<IFormOrder> {
 		this.button = ensureElement<HTMLButtonElement>('.order__button', container);
 		this.errorSpan = ensureElement<HTMLSpanElement>('.form__errors', container);
 
-
-	this.form.addEventListener('input', (e: Event) => {
+		this.form.addEventListener('input', (e: Event) => {
 			const target = e.target as HTMLInputElement;
 			const field = target.name as keyof IFormOrder;
 			const value = target.value;
@@ -58,7 +57,7 @@ export class FormOrder extends Form<IFormOrder> {
 		});
 	};
 
-protected onInputChange(field: keyof IFormOrder, value: string) {
+	protected onInputChange(field: keyof IFormOrder, value: string) {
 		this.events.emit(`${this.form.name}.${String(field)}:change`, {
 			field,
 			value,
@@ -67,17 +66,15 @@ protected onInputChange(field: keyof IFormOrder, value: string) {
 	}
 
 	protected set isPayMethod(value: boolean) {
-		if(value) {
-			this.cash.classList.add('button_alt-active');
-			this.card.classList.remove('button_alt-active');
-		} else {
-			this.card.classList.add('button_alt-active');
-			this.cash.classList.remove('button_alt-active');
-		}
-	};
+		this.toggleClass(this.cash,'button_alt-active', value )
+		this.toggleClass(this.card,'button_alt-active', !value )
+	}
 
-	 clearIsPayMethod(){
+
+	clearIsPayMethod() {
 		this.card.classList.remove('button_alt-active');
 		this.cash.classList.remove('button_alt-active');
 	};
+
+
 }

@@ -23,7 +23,7 @@ export class CardCatalog extends Card {
 	}
 
 	protected set image(value: string){
-		this.imageCard.src = value;
+		this.setImage(this.imageCard, value)
 	};
 
 	protected set category(value: string) {

@@ -94,15 +94,27 @@ events.on('form-contacts:send-order', () => {
 
 			const successRender = success.render({totalPrice: result.total})
 			modal.render({content: successRender})
+
 			basketData.clearBasket()
+			formContacts.reset()
+			formContacts.render({
+				valid: false,
+				errors: [],
+			})
+
+			userModel.resetData()
+
+			formOrder.clearIsPayMethod()
+			formOrder.reset()
+			formOrder.render({
+				valid: false,
+				errors: [],
+			})
 
 			return result
 		})
-		.catch((err) => {
-			console.log(err)
-		})
+		.catch(console.error)
 })
-
 
 events.on(/^order\..*:change|^contacts\..*:change/,
 	(data: { field: keyof IUserData; value: string | 'card' | 'cash' | null; formType: 'order' | 'contacts' }) => {
@@ -130,18 +142,6 @@ events.on(/^order\..*:change|^contacts\..*:change/,
 
 events.on('success:close', () => {
 	modal.close();
-
-
-	userModel.resetData();
-
-	formContacts.reset();
-	formOrder.reset();
-
-	formContacts.render({valid: false});
-	formOrder.render({valid: false});
-
-	formOrder.clearIsPayMethod();
-
 });
 
 events.on('products:changed', () => {
@@ -220,6 +220,7 @@ events.on('basket:updated', () => {
 
 	const totalCount = basketData.getTotalCount()
 	header.render({counter: totalCount})
+
 	const newArray = basketData.getItemsList().map((product, index) => {
 		const cardBasket = new CardBasket(cloneTemplate(cardBasketTemplate), events)
 		return cardBasket.render({
@@ -240,5 +241,4 @@ events.on('basket:updated', () => {
 	basket.updateButtonState(itemsList.length)
 
 })
-
 

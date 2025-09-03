@@ -2,6 +2,7 @@ import { Component } from '../base/Component';
 import { IEvents } from '../base/events';
 import { ensureElement } from '../../utils/utils';
 import { IProduct } from '../../types';
+import { categoryClasses } from '../../utils/constants';
 
 interface ICard extends IProduct {
 	buttonText: string;
@@ -15,12 +16,16 @@ export class Card extends Component<ICard> {
 	protected events: IEvents;
 	protected id: string;
 
+	protected categoryCard: HTMLElement;
+	protected imageCard: HTMLImageElement;
+
 	constructor(container: HTMLElement, events: IEvents) {
 		super(container);
 		this.events = events;
 
 		this.cardTitle = ensureElement<HTMLElement>('.card__title', container);
 		this.cardPrice = ensureElement<HTMLElement>('.card__price', container);
+
 	};
 
 	protected set title(value: string) {
@@ -30,4 +35,5 @@ export class Card extends Component<ICard> {
 	protected set price(value: number | null) {
 	 this.setText(this.cardPrice, value === null ? `Бессцено` : `${value} синапсов`);
  };
+
 }

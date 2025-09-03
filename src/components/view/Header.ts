@@ -10,13 +10,14 @@ export class Header extends Component<IHeaderData> {
 	protected basketButton: HTMLButtonElement;
 	protected counterElement: HTMLElement;
 	protected wrapper: HTMLElement;
+	body: HTMLElement
 
 	constructor(container: HTMLElement, protected events: IEvents) {
 		super(container);
 		this.basketButton = ensureElement<HTMLButtonElement>('.header__basket', container);
 		this.counterElement = ensureElement<HTMLElement>('.header__basket-counter', container);
 		this.wrapper = ensureElement<HTMLElement>('.page__wrapper');
-
+		this.body = document.querySelector('.page')
 		this.basketButton.addEventListener('click', () => {
 			events.emit('basket:open');
 		});
@@ -29,8 +30,10 @@ export class Header extends Component<IHeaderData> {
 
 
 	set locked(value: boolean) {
+
 		if (value) {
 			this.wrapper.classList.add('page__wrapper_locked');
+
 		} else {
 			this.wrapper.classList.remove('page__wrapper_locked');
 		}

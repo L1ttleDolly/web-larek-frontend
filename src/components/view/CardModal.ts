@@ -29,27 +29,21 @@ protected imageCard: HTMLImageElement;
 	};
 
 	protected set image(value: string){
-		this.imageCard.src = value;
+		this.setImage(this.imageCard, value)
 	};
-
-	protected set category(value: string) {
-		this.setText(this.categoryCard, value);
-		this.categoryCard.className = `card__category ${categoryClasses[value] ?? ''}`;
-	};
-
 
 	protected set buttonText (value:  string) {
 		this.setText(this.buyCardButton, value);
 	};
 
-
 	protected set price(value: number | null) {
 		super.price = value;
 
 		if (value === null) {
-			this.buyCardButton.disabled = true
+			this.setDisabled(this.buyCardButton, true)
 		} else {
-			this.buyCardButton.disabled = false
+			this.setDisabled(this.buyCardButton, false)
 		}
 	};
+
 }

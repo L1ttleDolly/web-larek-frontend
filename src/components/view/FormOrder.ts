@@ -72,8 +72,8 @@ export class FormOrder extends Form<IFormOrder> {
 
 
 	clearIsPayMethod() {
-		this.card.classList.remove('button_alt-active');
-		this.cash.classList.remove('button_alt-active');
+		this.toggleClass(this.cash,'button_alt-active', false)
+		this.toggleClass(this.card,'button_alt-active', false)
 	};
 
 

@@ -118,27 +118,30 @@ events.on('form-contacts:send-order', () => {
 
 events.on(/^order\..*:change|^contacts\..*:change/,
 	(data: { field: keyof IUserData; value: string | 'card' | 'cash' | null; formType: 'order' | 'contacts' }) => {
-
 		userModel.setField(data.field, data.value);
-
-		const validation = userModel.validateAll();
-		const userData = userModel.getUserData();
-
-		const isOrderValid = userData.address.trim() !== '' && userData.payment !== null;
-
-		formOrder.render({
-			valid: isOrderValid,
-			errors: Object.values(validation.errors.order),
-		});
-
-		const contactErrors = Object.values(validation.errors.contacts).filter(Boolean);
-
-		formContacts.render({
-			valid: Object.keys(validation.errors.contacts).length === 0,
-			errors: contactErrors,
-		});
 	}
 );
+
+events.on('user:update', () => {
+
+	const validation = userModel.validateAll();
+	const userData = userModel.getUserData();
+
+	const isOrderValid = userData.address.trim() !== '' && userData.payment !== null;
+
+	formOrder.render({
+		valid: isOrderValid,
+		errors: Object.values(validation.errors.order),
+	});
+
+	const contactErrors = Object.values(validation.errors.contacts).filter(Boolean);
+
+	formContacts.render({
+		valid: Object.keys(validation.errors.contacts).length === 0,
+		errors: contactErrors,
+	});
+
+})
 
 events.on('success:close', () => {
 	modal.close();

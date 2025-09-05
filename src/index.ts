@@ -122,9 +122,12 @@ events.on(/^order\..*:change|^contacts\..*:change/,
 	}
 );
 
-events.on('user:update', () => {
+events.on('user:update', (data: {field: string}) => {
 
 	const validation = userModel.validateAll();
+
+if (data.field === 'address' || data.field === 'payment') {
+
 	const userData = userModel.getUserData();
 
 	const isOrderValid = userData.address.trim() !== '' && userData.payment !== null;
@@ -134,14 +137,16 @@ events.on('user:update', () => {
 		errors: Object.values(validation.errors.order),
 	});
 
+} if (data.field === 'phone' || data.field === 'email') {
+
 	const contactErrors = Object.values(validation.errors.contacts).filter(Boolean);
 
 	formContacts.render({
 		valid: Object.keys(validation.errors.contacts).length === 0,
 		errors: contactErrors,
 	});
-
-})
+}
+});
 
 events.on('success:close', () => {
 	modal.close();

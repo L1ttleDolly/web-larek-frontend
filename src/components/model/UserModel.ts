@@ -1,5 +1,6 @@
 import { IEvents } from '../base/events';
 import { IUserData } from '../../types';
+import { strict } from 'node:assert';
 
 interface IUserModel {
 	setField<T extends keyof IUserData>(field: T, value: IUserData[T]): void;
@@ -20,7 +21,8 @@ export class UserModel implements IUserModel {
 
 	setField<T extends keyof IUserData>(field: T, value: IUserData[T]) {
 		this.userData[field] = value;
-		this.events.emit('user:update')
+
+		this.events.emit('user:update', {field})
 	}
 
 	validateAll() {

@@ -25,7 +25,7 @@ export  class Success extends Component<ISuccess>{
 	};
 
 	protected set totalPrice(value: number) {
-		this.setText(this.description, value);
+		this.setText(this.description, `Списано ${value} синапсов`);
 	};
-
+	
 }
